@@ -1,4 +1,3 @@
-// import { cardColors } from '~/utils/constants'
 import { generateItems } from '~/utils/helpers'
 
 export const cardColors = [
@@ -11,36 +10,58 @@ export const cardColors = [
   { id: 6, name: 'Purple', color: '#d8b4fe' }
 ]
 
-const pickColor = () => {
-  const randomId = +((Math.random() * 10) % cardColors.length).toFixed()
-  return cardColors[randomId].color
-}
+const listName = [
+  {
+    name: 'Not Started',
+    color: cardColors[0].color
+  },
+  {
+    name: 'In progress',
+    color: cardColors[2].color
+  },
+  {
+    name: 'Completed',
+    color: cardColors[3].color
+  },
+]
 
-const lorem =
-  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi delectus distinctio molestiae accusantium, similique facilis. Aperiam at voluptate cum quisquam?'
-
+const defaultTask = [
+  {
+    title: 'Clean the kitchen',
+    description:
+      "Mop the floor, wipe the countertop and don't forget to take out the trash!"
+  },
+  {
+    title: 'Call Mom',
+    description: "It's her birthday!"
+  },
+  {
+    title: 'Water flowers',
+    description: 'They need water, or they will die.'
+  }
+]
 export const state = () => ({
   list: JSON.parse(localStorage.getItem('list')) || {
     type: 'container',
     props: {
       orientation: 'horizontal'
     },
-    children: generateItems(5, (i) => ({
+    children: generateItems(3, (i) => ({
       id: i,
       type: 'container',
-      name: `Default ${i + 1}`,
+      name: ` ${listName[i].name}`,
       props: {
         orientation: 'vertical',
         className: '',
-        color: pickColor()
+        color: `${listName[i].color}`
       },
       children: generateItems(
         +((Math.random() * 10) % 4).toFixed() + 1,
         (j) => ({
           type: 'draggable',
           key: `${Math.random()}`.slice(2),
-          title: `Default Card ${i + 1} - ${j + 1}`,
-          description: lorem.slice(+(Math.random() * 100).toFixed())
+          title: `${defaultTask[j % 3].title} - ${j + 1}`,
+          description: defaultTask[j % 3].description
         })
       )
     }))
